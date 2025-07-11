@@ -13,13 +13,13 @@ body {
     background-color: #121214;
     color: white;
 }
-/* 
+
 body *,
 :root {
     font-family: "Inter";
     line-heright: 160%;
 }
-*/
+
 header {  
     padding-top: 2rem;
     text-align: center;
@@ -110,4 +110,22 @@ button:hover {
     cursor: pointer;
     transform: translateY(-2px);
     box-shadow: 0 5px 1px rgba(255, 248, 107, 0.2);
+}
+
+button:disabled {
+    transition: initial;
+    transform: initial;
+    box-shadow: initial;
+    cursor: not-allowed;
+    color: black;    
+}
+
+.loading {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.5;
+    }   
 }
