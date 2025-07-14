@@ -24,6 +24,5 @@ Ah, e se surgir qualquer dúvida, não se esqueça: nossa comunidade tá aqui pr
 ---
 
 <aside>
-<img src="./assets/symbol.svg" alt="https://prod-files-secure.s3.us-west-2.amazonaws.com/08f749ff-d06d-49a8-a488-9846e081b224/8a262faf-804f-467d-828c-37c228ac33c9/symbol.svg" width="20px" />   Feito com 💜 por Rocketseat
-
+    <img src="./assets/symbol.svg" alt="https://prod-files-secure.s3.us-west-2.amazonaws.com/08f749ff-d06d-49a8-a488-9846e081b224/8a262faf-804f-467d-828c-37c228ac33c9/symbol.svg" width="20px" />   Feito com 💜 por Rocketseat
 </aside>
