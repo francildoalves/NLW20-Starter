@@ -5,7 +5,7 @@ const button = document.getElementById('askButton');
 const aiResponse = document.getElementById('aiResponse');
 const form = document.getElementById('form');
 
-//
+//Perfunta à API Gemini
 const perguntarAI = async (apiKey, game, question) => {
     const modelo = "gemini-2.0-flash";
     const geminiURL = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
