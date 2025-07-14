@@ -5,36 +5,41 @@ const button = document.getElementById('askButton');
 const aiResponse = document.getElementById('aiResponse');
 const form = document.getElementById('form');
 
+//
 const perguntarAI = async (apiKey, game, question) => {
     const modelo = "gemini-2.0-flash";
     const geminiURL = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
-    const pergunta = ``;
+    const pergunta = `Tenho um jogo ${game} e gostaria de saber: ${question}`;
     
-    const contents = [
+    const contents = [{
         parts: [{
             text: pergunta
         }]
-    ];
+    }];
 
     // Chamada para a API Gemini
     const response = await fetch(geminiURL, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-        }
-    })  
-
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            contents: contents
+        })
+    })
+    
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
 }
 
 
 // Função para enviar o formulário e processar a pergunta.
-const enviarFormulario = (event) => {
+const enviarFormulario = async (event) => {
     event.preventDefault(); // Previne o comportamento padrão do formulário.
     const apiKey = apiKeyImput.value;
     const game = gameSelect.value;
     const question = questionInput.value;
 
-    console.log({apiKey, game, question});
 
     if (apiKey == " " || game == " " || question == " ") {
         alert('Por favor, preencha todos os campos.');
@@ -46,9 +51,9 @@ const enviarFormulario = (event) => {
     askButton.classList.add('loading'); 
 
     try {
-        perguntarAI(apiKey, game, question);
-    } catch (error) {
-        alert('Ocorreu um erro ao enviar a pergunta. Por favor, tente novamente.');        
+       const text = await perguntarAI(apiKey, game, question);
+       aiResponse.querySelector('.response-content').innerHTML = text
+        console.log('Erro:', error);        
     } finally {
         askButton.disabled = false; // Reabilita o botão após o envio.
         askButton.textContent = 'Perguntar'; // Restaura o texto do botão.
