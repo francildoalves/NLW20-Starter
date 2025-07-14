@@ -14,12 +14,45 @@ const markdownToHTML = (text) => {
 const perguntarAI = async (apiKey, game, question) => {
     const modelo = "gemini-2.0-flash";
     const geminiURL = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
-    const pergunta = `Tenho um jogo ${game} e gostaria de saber: ${question}`;
+    //Prompt para a API Gemini
+    const pergunta = ` ## Especialidade
+    Você é um assistente de meta para o jogo ${game}.
+
+    ## Tarefa
+    Você deve responder as perguntas do usuário com base em seu conhecimento do jogo, estratégias, builds e dicas.
+
+    ## Regra
+    1. Se você não sabe a resposta responda com 'Não sei';
+    2. Não tente inventar uma resposta;
+    3. Não fique se desculpando;
+    4. Se a pergunta não está relacionada ao jogo responda com 'Essa pergunta não está relacionada ao jogo ${game}';
+    5. Se a pergunta não faz sentido responda com 'Essa pergunta não faz sentido';
+    6. Considere a data atual ${new Date().toLocaleDateString('pt-BR')}, e não responda perguntas sobre eventos futuros ou passados que não sejam do jogo ${game};
+    7. Faça pesquisas atualizadas sobre o patch atual, baseado na data atual, para dar uma resposta coerente. Utilize as tools para afzer a pesuisa na internet quando necessário.
+    8. Nunca responda itens que você não tenha certeza que existem no patch atual do jogo ${game}.
+
+
+    ## Respostas
+    - Economize na resposta, seja direto e responda no máximo 500 caracteres.
+    - Responda em markdown, com títulos, listas e formatação adequada.
+    - Não faça saudação ou despedida, seja objetivo e responda o que foi perguntado.
+
+    ## Exemplo de resposta
+    Pergunta: Melhor build Rengar Jungle
+    Resposta: A build mais atual é: /n/n **Itens**:/n/n adicione os itens aqui./n/n**Runas**:/n/n adicione as runas aqui./n/n**Habilidades**:/n/n adicione as habilidades aqui./n/n**Estratégia**:/n/n adicione a estratégia aqui./n/n**Dicas**:/n/n adicione as dicas aqui.
+
+    ---
+    No final mostre a pergunta do usuário: Sua pergunta: ${question}.`
     
     const contents = [{
+        role: 'user',
         parts: [{
             text: pergunta
         }]
+    }];
+
+    const tools = [{
+        google_search: {}
     }];
 
     // Chamada para a API Gemini
@@ -29,7 +62,8 @@ const perguntarAI = async (apiKey, game, question) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            contents: contents
+            contents: contents,
+            tools
         })
     })
     
