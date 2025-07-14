@@ -5,6 +5,11 @@ const button = document.getElementById('askButton');
 const aiResponse = document.getElementById('aiResponse');
 const form = document.getElementById('form');
 
+const markdownToHTML = (text) => {
+    const converter = new showdown.Converter();
+    return converter.makeHtml(text);
+}
+
 //Perfunta à API Gemini
 const perguntarAI = async (apiKey, game, question) => {
     const modelo = "gemini-2.0-flash";
@@ -52,7 +57,7 @@ const enviarFormulario = async (event) => {
 
     try {
        const text = await perguntarAI(apiKey, game, question);
-       aiResponse.querySelector('.response-content').innerHTML = text
+       aiResponse.querySelector('.response-content').innerHTML = markdownToHTML(text);
         console.log('Erro:', error);        
     } finally {
         askButton.disabled = false; // Reabilita o botão após o envio.
