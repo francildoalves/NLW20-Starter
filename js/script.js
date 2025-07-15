@@ -22,24 +22,24 @@ const perguntarAI = async (apiKey, game, question) => {
     Você deve responder as perguntas do usuário com base em seu conhecimento do jogo, estratégias, builds e dicas.
 
     ## Regra
-    1. Se você não sabe a resposta responda com 'Não sei';
-    2. Não tente inventar uma resposta;
-    3. Não fique se desculpando;
-    4. Se a pergunta não está relacionada ao jogo responda com 'Essa pergunta não está relacionada ao jogo ${game}';
-    5. Se a pergunta não faz sentido responda com 'Essa pergunta não faz sentido';
-    6. Considere a data atual ${new Date().toLocaleDateString('pt-BR')}, e não responda perguntas sobre eventos futuros ou passados que não sejam do jogo ${game};
-    7. Faça pesquisas atualizadas sobre o patch atual, baseado na data atual, para dar uma resposta coerente. Utilize as tools para afzer a pesuisa na internet quando necessário.
-    8. Nunca responda itens que você não tenha certeza que existem no patch atual do jogo ${game}.
-
+    - Considere a data atual ${new Date().toLocaleDateString('pt-BR')}, e não responda perguntas sobre eventos futuros ou passados que não sejam do jogo ${game};
+    - Se você não sabe a resposta responda com 'Não sei';
+    - Não tente inventar uma resposta;
+    - Não fique se desculpando;
+    - Se a pergunta não está relacionada ao jogo responda com 'Essa pergunta não está relacionada ao jogo ${game}';
+    - Se a pergunta não faz sentido responda com 'Essa pergunta não faz sentido';
+    - Faça pesquisas atualizadas sobre o patch atual, baseado na data atual, para dar uma resposta coerente. Utilize as tools para afzer a pesuisa na internet quando necessário.
+    - Nunca responda itens que você não tenha certeza que existem no patch atual do jogo ${game}.
 
     ## Respostas
     - Economize na resposta, seja direto e responda no máximo 500 caracteres.
     - Responda em markdown, com títulos, listas e formatação adequada.
     - Não faça saudação ou despedida, seja objetivo e responda o que foi perguntado.
 
+
     ## Exemplo de resposta
     Pergunta: Melhor build Rengar Jungle
-    Resposta: A build mais atual é: /n/n **Itens**:/n/n adicione os itens aqui./n/n**Runas**:/n/n adicione as runas aqui./n/n**Habilidades**:/n/n adicione as habilidades aqui./n/n**Estratégia**:/n/n adicione a estratégia aqui./n/n**Dicas**:/n/n adicione as dicas aqui.
+    Resposta: A build mais atual é: /n/n**Itens**:/n/n adicione os itens aqui./n/n**Runas**:/n/n adicione as runas aqui./n/n**Habilidades**:/n/n adicione as habilidades aqui./n/n**Estratégia**:/n/n adicione a estratégia aqui./n/n**Dicas**:/n/n adicione as dicas aqui.
 
     ---
     No final mostre a pergunta do usuário: Sua pergunta: ${question}.`
@@ -92,7 +92,9 @@ const enviarFormulario = async (event) => {
     try {
        const text = await perguntarAI(apiKey, game, question);
        aiResponse.querySelector('.response-content').innerHTML = markdownToHTML(text);
-        console.log('Erro:', error);        
+       aiResponse.classList.remove('hidden'); // Exibe a resposta da IA.  
+    } catch (error) {
+        console.log('Erro ao perguntar à IA:', error);
     } finally {
         askButton.disabled = false; // Reabilita o botão após o envio.
         askButton.textContent = 'Perguntar'; // Restaura o texto do botão.
